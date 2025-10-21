@@ -22,25 +22,8 @@ export class UsersController {
 
   // Create user (open - for demo)
   @Post()
-  async create(
-    @Body()
-    body: {
-      username: string;
-      password: string;
-      first_name: string;
-      last_name: string;
-      email?: string;
-      role?: string;
-    },
-  ) {
-    return this.usersService.create(
-      body.username,
-      body.password,
-      body.first_name,
-      body.last_name,
-      body.email,
-      body.role,
-    );
+  async create(@Body() body: { username: string; password: string }) {
+    return this.usersService.createUser(body.username, body.password);
   }
 
   // Update user (protected)
