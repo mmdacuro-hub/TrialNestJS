@@ -5,33 +5,25 @@ import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
-  
-  createUser(username: string, password: string) {
-    throw new Error('Method not implemented.');
-  }
-  getAll() {
-    throw new Error('Method not implemented.');
-  }
   constructor(private db: DatabaseService) {}
 
   private pool = () => this.db.getPool();
 
   async create(
-  username: string,
-  password: string,
-  first_name: string,
-  last_name: string,
-  email?: string,
-  role: string = 'user',
-) {
-  const hashed = await bcrypt.hash(password, 10);
-  const [result] = await this.pool().execute<OkPacket>(
-    'INSERT INTO users (username, password, first_name, last_name, email, role) VALUES (?, ?, ?, ?, ?, ?)',
-    [username, hashed, first_name, last_name, email, role],
-  );
-  return { id: result.insertId, username, first_name, last_name, email, role };
-}
-
+    username: string,
+    password: string,
+    first_name: string,
+    last_name: string,
+    email?: string,
+    role: string = 'user',
+  ) {
+    const hashed = await bcrypt.hash(password, 10);
+    const [result] = await this.pool().execute<OkPacket>(
+      'INSERT INTO users (username, password, first_name, last_name, email, role) VALUES (?, ?, ?, ?, ?, ?)',
+      [username, hashed, first_name, last_name, email, role],
+    );
+    return { id: result.insertId, username, first_name, last_name, email, role };
+  }
 
   async findByUsername(username: string) {
     const [rows] = await this.pool().execute<RowDataPacket[]>(
