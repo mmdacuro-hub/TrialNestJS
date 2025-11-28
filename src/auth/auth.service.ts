@@ -2,6 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
@@ -20,8 +21,16 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { username: user.username, sub: user.id, role: user.role };
+    
+    const accessSecret = process.env.JWT_ACCESS_TOKEN_SECRET || 'access_secret';
+    const refreshSecret = process.env.JWT_REFRESH_TOKEN_SECRET || 'refresh_secret';
+    
+    const accessToken = jwt.sign(payload, accessSecret, { expiresIn: '15m' });
+    const refreshToken = jwt.sign(payload, refreshSecret, { expiresIn: '7d' });
+    
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: accessToken,
+      refresh_token: refreshToken,
     };
   }
 

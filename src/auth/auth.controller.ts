@@ -10,9 +10,9 @@ export class AuthController {
   async register(@Body() body: {
     username: string;
     password: string;
-    first_name: string; // <-- 1. ADDED THIS
-    last_name: string;  // <-- 2. ADDED THIS
-    email: string;      // <-- 3. ADDED THIS
+    first_name: string;
+    last_name: string; 
+    email: string;
   }) {
     // 4. Call the REAL 'create' function with all arguments
     return this.usersService.create(

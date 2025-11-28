@@ -5,6 +5,9 @@ import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
+  getAll() {
+    throw new Error('Method not implemented.');
+  }
   constructor(private db: DatabaseService) {}
 
   private pool = () => this.db.getPool();
